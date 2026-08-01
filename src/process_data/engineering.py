@@ -47,9 +47,8 @@ def get_all_feature_names() -> list:
     return base_numeric_feature + engineered_feature + cfg.binary_feature
 
 
-def build_preprocessor() -> ColumnTransformer:
-    numeric_cols = base_numeric_feature + engineered_feature
-
+def build_preprocessor(use_engineered: bool = False) -> ColumnTransformer:
+    numeric_cols = base_numeric_feature + (engineered_feature if use_engineered else [])
     numeric_transformer = Pipeline([
         ("imputer", SimpleImputer(strategy="median")),
         ("scaler", StandardScaler()),
